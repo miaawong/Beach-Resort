@@ -15,7 +15,9 @@ class RoomProvider extends Component {
     componentDidMount() {
         // this.getData
         let rooms = this.formatData(items);
+        // filter out all rooms that have featured = true
         let featuredRooms = rooms.filter(room => room.featured === true);
+        // to schedule updates to the component local state
         this.setState({
             rooms,
             featuredRooms,
@@ -23,6 +25,7 @@ class RoomProvider extends Component {
             loading: false
         });
     }
+    // formatting from data.js
     formatData(items) {
         let tempItems = items.map(item => {
             let id = item.sys.id;
