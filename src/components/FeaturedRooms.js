@@ -5,6 +5,7 @@ import Room from "./Room";
 import Loading from "./Loading";
 
 export default class FeaturedRooms extends Component {
+    //class based component's consumer... since context.consumer is proved to be buggy
     static contextType = RoomContext;
     render() {
         let { loading, featuredRooms: rooms } = this.context;
