@@ -28,10 +28,10 @@ export default function RoomsFilter({ rooms }) {
     // add 'all' type to the types arr
     types = ["all", ...types];
     //map to jsx
-    types = types.map((type, index) => {
+    types = types.map((item, index) => {
         return (
-            <option value={type} key={index}>
-                {type}
+            <option value={item} key={index}>
+                {item}
             </option>
         );
     });
