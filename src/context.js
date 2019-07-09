@@ -69,11 +69,11 @@ class RoomProvider extends Component {
             },
             this.filterRooms
         );
+        // const type = event.target.type;
+        // const name = event.target.name;
+        // const value = event.target.value;
+        // console.log(`type:${type}, name:${name}, value:${value}`);
     };
-    // const type = event.target.type;
-    // const name = event.target.name;
-    // const value = event.target.value;
-    // console.log(`type:${type}, name:${name}, value:${value}`);
 
     // this is a callback function
     // we run this, when the state is actually changed, '[name]: value' is changed
