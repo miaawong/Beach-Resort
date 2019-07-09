@@ -61,7 +61,8 @@ class RoomProvider extends Component {
     handleChange = event => {
         const target = event.target;
         // for checkboxes or not
-        const value = event.type === "checkbox" ? target.checked : target.value;
+        const value =
+            target.type === "checkbox" ? target.checked : target.value;
         const name = event.target.name;
         this.setState(
             {
@@ -88,14 +89,43 @@ class RoomProvider extends Component {
             breakfast,
             pets
         } = this.state;
-        // our filtering method
-        // set a temp value for rooms arr
+
+        // set a temp value for all the rooms
         let tempRooms = [...rooms];
-        // if type does not equal, return the rooms that are filtered, by room.type is equal to the type that is current in the state
+        // transform value from string to number
+        // the newly set capacity value from handleChange
+        capacity = parseInt(capacity);
+        price = parseInt(price);
+
+        // filter by 'type'
         if (type !== "all") {
             tempRooms = tempRooms.filter(room => room.type === type);
         }
-        // set tempRooms to sortedRooms to state
+
+        // filter by 'capacity'
+        if (capacity !== 1) {
+            tempRooms = tempRooms.filter(room => room.capacity >= capacity);
+        }
+
+        // filter by 'price'
+        tempRooms = tempRooms.filter(room => room.price <= price);
+
+        // filter by 'size'
+        tempRooms = tempRooms.filter(
+            room => room.minSize >= minSize || room.maxSize <= maxSize
+        );
+
+        // filter by 'breakfast'
+        if (breakfast) {
+            tempRooms = tempRooms.filter(room => room.breakfast === true);
+        }
+
+        //filter by 'pets'
+        if (pets) {
+            tempRooms = tempRooms.filter(room => room.pets === true);
+        }
+
+        // change state: tempRooms to sortedRooms to state
         this.setState({
             sortedRooms: tempRooms
         });
