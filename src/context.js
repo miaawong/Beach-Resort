@@ -88,10 +88,14 @@ class RoomProvider extends Component {
             breakfast,
             pets
         } = this.state;
+        // our filtering method
+        // set a temp value for rooms arr
         let tempRooms = [...rooms];
+        // if type does not equal, return the rooms that are filtered, by room.type is equal to the type that is current in the state
         if (type !== "all") {
             tempRooms = tempRooms.filter(room => room.type === type);
         }
+        // set tempRooms to sortedRooms to state
         this.setState({
             sortedRooms: tempRooms
         });
