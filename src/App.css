@@ -116,6 +116,7 @@ h6 {
     overflow: hidden;
     transition: var(--mainTransition);
     list-style-type: none;
+    margin: auto !important;
 }
 .nav-links a {
     display: block;
