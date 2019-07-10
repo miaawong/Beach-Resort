@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import items from "./data";
+//import items from "./data";
+import Client from "./Contentful";
+
 const RoomContext = React.createContext();
 // <RoomContext.Provider value= {}
 
@@ -20,26 +22,38 @@ class RoomProvider extends Component {
         breakfast: false,
         pets: false
     };
-    //getData = getData() will be run from external db
+    //getData = getData() will be run from contentful
+    getData = async () => {
+        try {
+            let response = await Client.getEntries({
+                content_type: "beachResortRooms",
+                order: "fields.price"
+            });
+            let rooms = this.formatData(response.items);
+            // filter out all rooms that have featured = true
+            let featuredRooms = rooms.filter(room => room.featured === true);
+            // we wanna calc the max price from our data
+            let maxPrice = Math.max(...rooms.map(room => room.price));
+            let maxSize = Math.max(...rooms.map(room => room.size));
+            // to schedule updates to the component local state
+            this.setState({
+                rooms,
+                featuredRooms,
+                sortedRooms: rooms,
+                loading: false,
+                price: maxPrice,
+                maxPrice,
+                maxSize
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     componentDidMount() {
-        // this.getData
-        let rooms = this.formatData(items);
-        // filter out all rooms that have featured = true
-        let featuredRooms = rooms.filter(room => room.featured === true);
-        // we wanna calc the max price from our data
-        let maxPrice = Math.max(...rooms.map(room => room.price));
-        let maxSize = Math.max(...rooms.map(room => room.size));
-        // to schedule updates to the component local state
-        this.setState({
-            rooms,
-            featuredRooms,
-            sortedRooms: rooms,
-            loading: false,
-            price: maxPrice,
-            maxPrice,
-            maxSize
-        });
+        this.getData();
     }
+
     // formatting from data.js
     formatData(items) {
         let tempItems = items.map(item => {
@@ -112,7 +126,7 @@ class RoomProvider extends Component {
 
         // filter by 'size'
         tempRooms = tempRooms.filter(
-            room => room.minSize >= minSize || room.maxSize <= maxSize
+            room => room.size >= minSize && room.size <= maxSize
         );
 
         // filter by 'breakfast'
